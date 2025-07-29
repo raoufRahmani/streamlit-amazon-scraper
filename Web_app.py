@@ -1,20 +1,49 @@
 import streamlit as st
 from backend import get_urls, scrap_infos
 
-# ---------------- Sidebar: Contact Info with Icons ----------------
+# Sidebar 
 st.sidebar.markdown("### 📫 Contact Me")
 st.sidebar.markdown("**Email:** [rahmani.abderraouff@gmail.com](mailto:rahmani.abderraouff@gmail.com)")
 
+github_link = "https://github.com/raoufRahmani"
+linkedin_link = "https://www.linkedin.com/in/raoufrhm/"
+
+
 st.sidebar.markdown(
-    "[![GitHub](https://img.shields.io/badge/GitHub-raoufRahmani-181717?style=for-the-badge&logo=github)]"
-    "(https://github.com/raoufRahmani)"
-)
-st.sidebar.markdown(
-    "[![LinkedIn](https://img.shields.io/badge/LinkedIn-raoufrhm-0A66C2?style=for-the-badge&logo=linkedin)]"
-    "(https://www.linkedin.com/in/raoufrhm/)"
+    f"""
+    <style>
+    .icon-link {{
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        color: #000;
+    }}
+    .icon-link:hover {{
+        text-decoration: underline;
+        color: #0077b5;  /* LinkedIn blue on hover */
+    }}
+    .icon {{
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }}
+    </style>
+
+    <a href="{github_link}" target="_blank" class="icon-link">
+        <img class="icon" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg" alt="GitHub" />
+        GitHub
+    </a>
+
+    <a href="{linkedin_link}" target="_blank" class="icon-link">
+        <img class="icon" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn" />
+        LinkedIn
+    </a>
+    """,
+    unsafe_allow_html=True,
 )
 
-# ---------------- Main app ----------------
 st.markdown("<h1 style='text-align: center;'>Amazon App Scraper</h1>", unsafe_allow_html=True)
 st.caption("Created by Abderraouf RAHMANI")
 
@@ -23,10 +52,10 @@ st.markdown("- Go to amazon.fr")
 st.markdown("- Choose a product")
 st.markdown("- Copy the link of the page and paste it here")
 
-# STEP 1: Get links from URL
+# step1: Get links from URL
 with st.form(key='form1'):
     link = st.text_area("Enter the URL")
-    st.write("👉 Choose the number of pages to scrape (from 1 to 7):")
+    st.write("Choose the number of pages to scrape (from 1 to 7):")
     num_pages = st.slider("Number of pages to scrap", 1, 7)
     button1 = st.form_submit_button("Submit")
 
@@ -42,7 +71,7 @@ if button1:
         st.error("No product links found. Check the URL and try again.")
         st.session_state["step1_done"] = False
 
-# STEP 2: Only show this if step 1 is done
+# move to step2 after submitting step 1
 if st.session_state.get("step1_done", False):
     with st.form(key="file"):
         file = st.text_area("Choose a name for your file")
