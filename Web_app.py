@@ -2,7 +2,7 @@ import streamlit as st
 from backend import get_urls, scrap_infos
 
 # Sidebar 
-st.sidebar.markdown("### 📫 Contact Me")
+st.sidebar.markdown("### Contact Me")
 st.sidebar.markdown("**Email:** [rahmani.abderraouff@gmail.com](mailto:rahmani.abderraouff@gmail.com)")
 
 github_link = "https://github.com/raoufRahmani"
