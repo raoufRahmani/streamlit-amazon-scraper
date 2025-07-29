@@ -72,20 +72,23 @@ if button1:
         st.session_state["step1_done"] = False
 
 # move to step2 after submitting step 1
-if st.session_state.get("step1_done", False):
+if st.session_state.get("step1_done", False) and not st.session_state.get("step2_done", False):
     with st.form(key="file"):
         file = st.text_area("Choose a name for your file")
         button2 = st.form_submit_button("Submit")
 
     if button2:
         with st.spinner("Creating your file, this may take a few minutes..."):
-            # Sanitize filename
             file = file.strip().replace('\n', '').replace('\r', '')
             filename_with_ext = scrap_infos(st.session_state["product_links"], file)
-
+            st.session_state["step2_done"] = True
+            st.session_state["generated_file"] = filename_with_ext
         st.success("File created successfully!")
 
-        # Download button
+# download button
+if st.session_state.get("step2_done", False):
+    filename_with_ext = st.session_state.get("generated_file", None)
+    if filename_with_ext:
         with open(filename_with_ext, "rb") as f:
             st.download_button("Download file", f, file_name=filename_with_ext)
 
