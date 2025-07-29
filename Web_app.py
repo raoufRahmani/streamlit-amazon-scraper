@@ -72,20 +72,28 @@ if button1:
         st.session_state["step1_done"] = False
 
 # move to step2 after submitting step 1
+# STEP 2: Only show this if step 1 is done
 if st.session_state.get("step1_done", False) and not st.session_state.get("step2_done", False):
-    with st.form(key="file"):
-        file = st.text_area("Choose a name for your file")
-        button2 = st.form_submit_button("Submit")
+    if not st.session_state.get("creating_file", False):
+        with st.form(key="file_form"):
+            file = st.text_area("Choose a name for your file")
+            button2 = st.form_submit_button("Submit")
 
-    if button2:
-        with st.spinner("Creating your file, this may take a few minutes..."):
-            file = file.strip().replace('\n', '').replace('\r', '')
-            filename_with_ext = scrap_infos(st.session_state["product_links"], file)
-            st.session_state["step2_done"] = True
-            st.session_state["generated_file"] = filename_with_ext
-        st.success("File created successfully!")
+        if button2:
+            st.session_state["creating_file"] = True
+            st.session_state["file_name_input"] = file.strip().replace('\n', '').replace('\r', '')
+            st.rerun()
 
-# download button
+# Run scraper only once when creating_file is True
+if st.session_state.get("creating_file", False) and not st.session_state.get("step2_done", False):
+    with st.spinner("Creating your file, this may take a few minutes..."):
+        filename_with_ext = scrap_infos(st.session_state["product_links"], st.session_state["file_name_input"])
+        st.session_state["generated_file"] = filename_with_ext
+        st.session_state["step2_done"] = True
+        st.session_state["creating_file"] = False
+    st.success("File created successfully!")
+
+# Show download button after file creation
 if st.session_state.get("step2_done", False):
     filename_with_ext = st.session_state.get("generated_file", None)
     if filename_with_ext:
