@@ -2,6 +2,7 @@ import streamlit as st
 from backend import get_urls, scrap_infos
 
 st.header("Amazon App Scraper")
+st.caption("Created by Abderraouf RAHMANI")
 st.write("Welcome to Amazon app scraper, this web application will allow you to collect data about amazon products")
 st.markdown("- Go to amazon.fr")
 st.markdown("- Choose a product")
@@ -41,5 +42,25 @@ if st.session_state.get("step1_done", False):
         # Download button
         with open(filename_with_ext, "rb") as f:
             st.download_button("Download file", f, file_name=filename_with_ext)
+
+st.markdown("---")
+st.markdown("###  Contact Me")
+st.markdown(" [rahmani.abderraouff@gmail.com](mailto:rahmani.abderraouff@gmail.com)")
+
+st.markdown(
+    """
+    <a href="https://github.com/raoufRahmani" target="_blank">
+        <button style="padding:8px 16px; background-color:#24292e; color:white; border:none; border-radius:5px;">GitHub</button>
+    </a>
+    <a href="https://www.linkedin.com/in/raoufrhm/" target="_blank" style="margin-left:10px;">
+        <button style="padding:8px 16px; background-color:#0077b5; color:white; border:none; border-radius:5px;">LinkedIn</button>
+    </a>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+
 
 
