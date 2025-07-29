@@ -56,7 +56,7 @@ st.markdown("- Copy the link of the page and paste it here")
 with st.form(key='form1'):
     link = st.text_area("Enter the URL")
     st.write("Choose the number of pages to scrape (from 1 to 7):")
-    num_pages = st.slider("Number of pages to scrap", 1, 7)
+    num_pages = st.slider("",1, 7)
     button1 = st.form_submit_button("Submit")
 
 if button1:
